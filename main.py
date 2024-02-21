@@ -29,7 +29,7 @@ async def on_ready():
     print(f"In:\n{ BOT.client.guilds }\nServers...")
 
     # Configure Google Generative AI
-    configure(api_key = environ.get("GEMINI_API_Key_PLAIN_VAL")) # Replace with your actual Google Gemini API key
+    configure(api_key = "AIzaSyCo83LzI3Q4Rr2WT_S_SoEYDBsMOOxZg3Q") # Replace with your actual Google Gemini API key
 
 # Event handler for when a message is received
 @BOT.client.event
@@ -65,4 +65,4 @@ async def on_message(message):
         except errors.HTTPException: pass
 
 # Run the bot
-if __name__ == "__main__": BOT.client.run(token = environ.get("GEMINI_Multi_Modal_TOKEN")) # Replace with your actual bot token
+if __name__ == "__main__": BOT.client.run(token = "MTE1MjU4NjAzMTE0OTg4MzQyMw.G0-1AH.ylq_U7fmmbETctNcLzfq4usTkWbu5P9Q-UU5qY") # Replace with your actual bot token
