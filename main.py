@@ -14,7 +14,7 @@ async def on_ready():
     print(f"Logged In as { BOT.client.user }")
 
     await BOT.client.user.edit(username = "Gemini Pro Multi-Modal")
-    with open(file = "C:\\VSC\\PYTHON\\Discord_BOT\\BardAI02\\Gemini.gif", mode = "rb") as pfp: await BOT.client.user.edit(avatar = pfp.read())
+    with open(file = "Gemini-Pro-Multi-Modal\\Gemini.gif", mode = "rb") as pfp: await BOT.client.user.edit(avatar = pfp.read())
     # Set bot username and presence
     await BOT.client.change_presence(activity = Activity(application_id = 1153053230377488456,
                                                          type = ActivityType.playing,
