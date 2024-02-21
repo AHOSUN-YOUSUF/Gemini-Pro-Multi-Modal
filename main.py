@@ -29,7 +29,7 @@ async def on_ready():
     print(f"In:\n{ BOT.client.guilds }\nServers...")
 
     # Configure Google Generative AI
-    configure(api_key = "AIzaSyCo83LzI3Q4Rr2WT_S_SoEYDBsMOOxZg3Q") # Replace with your actual Google Gemini API key
+    configure(api_key = "GEMINI_API_Key_PLAIN_VAL") # Replace with your actual Google Gemini API key
 
 # Event handler for when a message is received
 @BOT.client.event
