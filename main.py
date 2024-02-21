@@ -65,4 +65,4 @@ async def on_message(message):
         except errors.HTTPException: pass
 
 # Run the bot
-if __name__ == "__main__": BOT.client.run(token = environ.get(GEMINI_Multi_Modal_TOKEN"")) # Replace with your actual bot token
+if __name__ == "__main__": BOT.client.run(token = environ.get("GEMINI_Multi_Modal_TOKEN")) # Replace with your actual bot token
