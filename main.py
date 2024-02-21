@@ -5,6 +5,8 @@ from keep_alive import (keep_alive)
 from discord import (Activity, ActivityType, Status, errors)
 from os import (environ)
 
+keep_alive()
+
 # Event handler for when the bot is ready
 @BOT.client.event
 async def on_ready():
