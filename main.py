@@ -3,12 +3,10 @@ from google.generativeai import (configure)
 from dependencies import (GeminiCompletion, GenerativeModelConfig, ImageIO, BOT, MessageStuff)
 from keep_alive import (keep_alive)
 from discord import (Activity, ActivityType, Status, errors)
-from dotenv import (load_dotenv)
 from os import (environ)
 
 
 keep_alive()
-load_dotenv()
 
 # Event handler for when the bot is ready
 @BOT.client.event
