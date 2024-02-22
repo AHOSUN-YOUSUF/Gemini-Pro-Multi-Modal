@@ -5,7 +5,6 @@ from keep_alive import (keep_alive)
 from discord import (Activity, ActivityType, Status, errors)
 from os import (environ)
 
-
 keep_alive()
 
 # Event handler for when the bot is ready
@@ -29,7 +28,7 @@ async def on_ready():
     print(f"In:\n{ BOT.client.guilds }\nServers...")
 
     # Configure Google Generative AI
-    configure(api_key = "GEMINI_API_Key_PLAIN_VAL") # Replace with your actual Google Gemini API key
+    configure(api_key = environ.get("GEMINI_API_Key_PLAIN_VAL")) # Replace with your actual Google Gemini API key
 
 # Event handler for when a message is received
 @BOT.client.event
@@ -65,4 +64,8 @@ async def on_message(message):
         except errors.HTTPException: pass
 
 # Run the bot
-if __name__ == "__main__": BOT.client.run(token = environ.get("GEMINI_Multi_Modal_TOKEN")) # Replace with your actual bot token
+try: 
+    if __name__ == "__main__": BOT.client.run(token = environ.get("GEMINI_Multi_Modal_TOKEN")) # Replace with your actual bot token
+except errors.LoginFailure: print("Improper token for the BOT, `@Gemini Pro Multi-Modal#0747`.\n",
+                                  "• Check the BOT token of `@Gemini Pro Multi-Modal#0747` at:\n"
+                                  " • https://discord.com/developers/applications/1153053230377488456/bot")
