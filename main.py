@@ -38,7 +38,8 @@ async def on_message(message):
     if message.author == BOT.client.user:
         return
 
-    if message.content.startswith("<@1152586031149883423>") and message.attachments:
+    elif message.content.startswith("<@1152586031149883423>") and message.attachments:
+        await message.add_reaction("<:Gemini:1209104350832762922>")
         start_time = time()
         command, user_message = message.content.split(" ", 1)
         image_data = await ImageIO.copy_image_data(message.attachments[0].url)
@@ -55,6 +56,7 @@ async def on_message(message):
         except errors.HTTPException: pass
 
     elif message.content.startswith("<@1152586031149883423>"):
+        await message.add_reaction("<:Gemini:1209104350832762922>")
         start_time = time()
         command, user_message = message.content.split(" ", 1)
         bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_TO_TEXT_MODEL_NAME,
@@ -74,7 +76,7 @@ try:
 
 except errors.LoginFailure: print("Improper token for the BOT, `@Gemini Pro Multi-Modal#0747`.\n",
                                   "• Check the BOT token of `@Gemini Pro Multi-Modal#0747` at:\n",
-                                  " • https://discord.com/developers/applications/1153053230377488456/bot")
+                                  "• https://discord.com/developers/applications/1153053230377488456/bot")
 
 except client_exceptions.ClientConnectionError: print("Can't connect your client to `discord.com`.\n",
                                                       "Maybe problem came for not Stable Net Connection.\n",
