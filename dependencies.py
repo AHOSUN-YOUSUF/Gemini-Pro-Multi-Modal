@@ -1,5 +1,6 @@
 # Import necessary libraries
 from google.generativeai import (configure, GenerativeModel)
+from google.api_core import (exceptions)
 from requests import (get as get_image, Response)
 from discord import (Client, Intents)
 from PIL import (Image)
@@ -56,31 +57,38 @@ class GeminiCompletion:
 
     # Authenticate with the Generative AI service
     @staticmethod
-    def gemini_auth(auth_key: str) -> None: configure(api_key = auth_key)
+    def gemini_auth(auth_key: str) -> None:
+        configure(api_key = auth_key)
 
     # Generate text based on text input
     async def text_to_text(self, query: str) -> str:
-        model = GenerativeModel(model_name = self.model_name,
-                                generation_config=self.generation_config,
-                                safety_settings=self.safety_settings)
+        try:
+            model = GenerativeModel(model_name = self.model_name,
+                                    generation_config = self.generation_config,
+                                    safety_settings = self.safety_settings)
 
-        answer = model.generate_content(contents = [query])
-        return answer.text
+            answer = model.generate_content(contents = [query])
+            return answer.text
+        except exceptions.InternalServerError: return "Before swearing at me! You need to know that it's Googles fault xDD.\nOkay, seriously, I'm not able to process Text to Text with Google for now!\nSorry about that! Check back later! Please?\n:3 oh and did you know you can't process anything in me after a long message as well owo!\nThis message is already SUPERlong so....."
+        except exceptions.InvalidArgument: return "Invalid API Key for Google Gemini Pro."
 
     # Generate text based on text and image input
     async def text_image_to_text(self, query: str, mime_type: str, image_data: bytes) -> str:
-        model = GenerativeModel(model_name = self.model_name,
-                                generation_config = self.generation_config,
-                                safety_settings = self.safety_settings)
+        try:
+            model = GenerativeModel(model_name = self.model_name,
+                                    generation_config = self.generation_config,
+                                    safety_settings = self.safety_settings)
 
-        answer = model.generate_content(contents=[query,
-                                                  {"mime_type": mime_type,
-                                                   "data": image_data}])
-        return answer.text
+            answer = model.generate_content(contents = [query,
+                                                        {"mime_type": mime_type,
+                                                        "data": image_data}])
+            return answer.text
+        except exceptions.InternalServerError: return "Before swearing at me! You need to know that it's Googles fault xDD.\nOkay, seriously, I'm not able to process Text to Text with Google for now!\nSorry about that! Check back later! Please?\n:3 oh and did you know you can't process anything in me after a long message as well owo!\nThis message is already SUPERlong so....."
+        except exceptions.InvalidArgument: return "Invalid API Key for Google Gemini Pro."
 
 # Class to handle image related operations
 class ImageConfig:
-    GET_IMAGE = get_image
+    GET_IMAGE: Response = get_image
     IMAGE_OPENER = Image
     IMAGE_READER = BytesIO
     IMAGE_FORMATS: dict[str, str] = {"jpeg": "image/jpeg",
