@@ -1,9 +1,9 @@
 # Import necessary dependencies
-from google.generativeai import (configure)
 from dependencies import (GeminiCompletion, GenerativeModelConfig, ImageIO, BOT, MessageStuff)
 from keep_alive import (keep_alive)
-from time import (time)
+from aiohttp import (client_exceptions)
 from discord import (Activity, ActivityType, Status, errors)
+from time import (time)
 from os import (environ)
 
 keep_alive()
@@ -29,7 +29,7 @@ async def on_ready():
     print(f"In:\n{ BOT.client.guilds }\nServers...")
 
     # Configure Google Generative AI
-    configure(api_key = environ.get("GEMINI_API_Key_PLAIN_VAL")) # Replace with your actual Google Gemini API key
+    GeminiCompletion.gemini_auth(auth_key = environ.get("GEMINI_API_Key_PLAIN_VAL")) # Replace with your actual Google Gemini API key
 
 # Event handler for when a message is received
 @BOT.client.event
@@ -48,9 +48,10 @@ async def on_message(message):
                                               safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = user_message, mime_type = mime_type, image_data = image_data)
         end_time = time()
         # Reply to the message with the bot's response
-        await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
+        async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
         try: 
-            for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
+            async with message.channel.typing(): 
+                for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
         except errors.HTTPException: pass
 
     elif message.content.startswith("<@1152586031149883423>"):
@@ -61,14 +62,20 @@ async def on_message(message):
                                               safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = user_message)
         end_time = time()
         # Reply to the message with the bot's response
-        await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author=False)
+        async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
         try: 
-            for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
+            async with message.channel.typing(): 
+                for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
         except errors.HTTPException: pass
 
 # Run the bot
 try: 
     if __name__ == "__main__": BOT.client.run(token = environ.get("GEMINI_Multi_Modal_TOKEN")) # Replace with your actual bot token
+
 except errors.LoginFailure: print("Improper token for the BOT, `@Gemini Pro Multi-Modal#0747`.\n",
-                                  "• Check the BOT token of `@Gemini Pro Multi-Modal#0747` at:\n"
+                                  "• Check the BOT token of `@Gemini Pro Multi-Modal#0747` at:\n",
                                   " • https://discord.com/developers/applications/1153053230377488456/bot")
+
+except client_exceptions.ClientConnectionError: print("Can't connect your client to `discord.com`.\n",
+                                                      "Maybe problem came for not Stable Net Connection.\n",
+                                                      "Connect to a Stable Net Connection and try again later.")
