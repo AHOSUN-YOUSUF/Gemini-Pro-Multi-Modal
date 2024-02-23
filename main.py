@@ -2,6 +2,7 @@
 from google.generativeai import (configure)
 from dependencies import (GeminiCompletion, GenerativeModelConfig, ImageIO, BOT, MessageStuff)
 from keep_alive import (keep_alive)
+from time import (time)
 from discord import (Activity, ActivityType, Status, errors)
 from os import (environ)
 
@@ -38,27 +39,29 @@ async def on_message(message):
         return
 
     if message.content.startswith("<@1152586031149883423>") and message.attachments:
+        start_time = time()
         command, user_message = message.content.split(" ", 1)
         image_data = await ImageIO.copy_image_data(message.attachments[0].url)
         mime_type = await ImageIO.get_image_type(image_data)
         bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_AND_IMAGE_TO_TEXT_MODEL_NAME,
                                               generation_config = GenerativeModelConfig.GENERATION_CONFIG,
                                               safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = user_message, mime_type = mime_type, image_data = image_data)
-
+        end_time = time()
         # Reply to the message with the bot's response
-        await message.reply("The response to your message from <@1152586031149883423> was this:", mention_author = False)
+        await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
         try: 
             for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
         except errors.HTTPException: pass
 
     elif message.content.startswith("<@1152586031149883423>"):
+        start_time = time()
         command, user_message = message.content.split(" ", 1)
         bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_TO_TEXT_MODEL_NAME,
                                               generation_config = GenerativeModelConfig.GENERATION_CONFIG,
                                               safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = user_message)
-
+        end_time = time()
         # Reply to the message with the bot's response
-        await message.reply("The response to your message from <@1152586031149883423> was this:", mention_author=False)
+        await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author=False)
         try: 
             for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
         except errors.HTTPException: pass
