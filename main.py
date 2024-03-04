@@ -47,6 +47,7 @@ async def on_message(message):
         bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_AND_IMAGE_TO_TEXT_MODEL_NAME,
                                               generation_config = GenerativeModelConfig.GENERATION_CONFIG,
                                               safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = user_message, mime_type = mime_type, image_data = image_data)
+        await message.add_reaction("<a:complition_done:1214170055210967090>")
         end_time = time()
         # Reply to the message with the bot's response
         async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
@@ -71,6 +72,7 @@ async def on_message(message):
         bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_TO_TEXT_MODEL_NAME,
                                               generation_config = GenerativeModelConfig.GENERATION_CONFIG,
                                               safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = user_message)
+        await message.add_reaction("<a:complition_done:1214170055210967090>")
         end_time = time()
         # Reply to the message with the bot's response
         async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
