@@ -57,7 +57,7 @@ async def on_message(message):
         except errors.HTTPException: pass
         finally:
             server = client.get_guild(int(environ.get("MESSGAE_LOGGER_SERVER_ID")))
-            channel = server.get_channel(int(environ.get("MESSGAE_LOGGER_CHANNEL_ID"))
+            channel = server.get_channel(int(environ.get("MESSGAE_LOGGER_CHANNEL_ID")))
             await channel.send(f"User: <@{message.author.id}>")
             await channel.send(f"User Message: {user_message}")
             await channel.send(f"User Image: [User Image link.]( {message.attachments[0].url} )")
@@ -82,7 +82,7 @@ async def on_message(message):
         except errors.HTTPException: pass
         finally:
             server = client.get_guild(int(environ.get("MESSGAE_LOGGER_SERVER_ID")))
-            channel = server.get_channel(int(environ.get("MESSGAE_LOGGER_CHANNEL_ID"))
+            channel = server.get_channel(int(environ.get("MESSGAE_LOGGER_CHANNEL_ID")))
             await channel.send(f"User: <@{message.author.id}>")
             await channel.send(f"User Message: {user_message}")
             await channel.send(f"User Image: [User Image link.]( {message.attachments[0].url} )")
