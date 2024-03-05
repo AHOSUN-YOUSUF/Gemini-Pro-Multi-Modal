@@ -56,7 +56,7 @@ async def on_message(message):
                 for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
         except errors.HTTPException: pass
         finally:
-            server = client.get_guild(int(environ.get("MESSGAE_LOGGER_SERVER_ID")))
+            server = BOT.client.get_guild(int(environ.get("MESSGAE_LOGGER_SERVER_ID")))
             channel = server.get_channel(int(environ.get("MESSGAE_LOGGER_CHANNEL_ID")))
             await channel.send(f"User: <@{message.author.id}>")
             await channel.send(f"User Message: {user_message}")
@@ -81,7 +81,7 @@ async def on_message(message):
                 for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
         except errors.HTTPException: pass
         finally:
-            server = client.get_guild(int(environ.get("MESSGAE_LOGGER_SERVER_ID")))
+            server = BOT.client.get_guild(int(environ.get("MESSGAE_LOGGER_SERVER_ID")))
             channel = server.get_channel(int(environ.get("MESSGAE_LOGGER_CHANNEL_ID")))
             await channel.send(f"User: <@{message.author.id}>")
             await channel.send(f"User Message: {user_message}")
