@@ -63,7 +63,7 @@ async def on_message(message):
             await channel.send(f"User Image: [User Image link.]( {message.attachments[0].url} )")
             await channel.send(f"<@1152586031149883423> Responce to the Message:")
             async with message.channel.typing(): 
-                for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
+                for part in MessageStuff(text = bot_response).split_text(): await channel.send(part)
 
     elif message.content.startswith("<@1152586031149883423>"):
         await message.add_reaction("<:Gemini:1209104350832762922>")
@@ -88,7 +88,7 @@ async def on_message(message):
             await channel.send(f"User Image: [User Image link.]( {message.attachments[0].url} )")
             await channel.send(f"<@1152586031149883423> Responce to the Message:")
             async with message.channel.typing(): 
-                for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
+                for part in MessageStuff(text = bot_response).split_text(): await channel.send(part)
 
 # Run the bot
 try: 
