@@ -40,22 +40,31 @@ async def on_message(message):
 
     elif message.content.startswith("<@1152586031149883423>") and message.attachments:
         await message.add_reaction("<:Gemini:1209104350832762922>")
-        start_time = time()
-        command, user_message = message.content.split(" ", 1)
-        image_data = await ImageIO.copy_image_data(message.attachments[0].url)
-        mime_type = await ImageIO.get_image_type(image_data)
-        bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_AND_IMAGE_TO_TEXT_MODEL_NAME,
-                                              generation_config = GenerativeModelConfig.GENERATION_CONFIG,
-                                              safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = user_message, mime_type = mime_type, image_data = image_data)
-        await message.add_reaction("<a:complition_done:1214170055210967090>")
-        end_time = time()
         # Reply to the message with the bot's response
-        async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
-        try: 
-            async with message.channel.typing(): 
-                for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
+        try:
+            start_time_1st_try = time()
+            command, user_message = message.content.split(" ", 1)
+            image_data = await ImageIO.copy_image_data(message.attachments[0].url)
+            mime_type = await ImageIO.get_image_type(image_data)
+            bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_AND_IMAGE_TO_TEXT_MODEL_NAME,
+                                                  generation_config = GenerativeModelConfig.GENERATION_CONFIG,
+                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = user_message, mime_type = mime_type, image_data = image_data)
+            end_time_1st_try = time()
+            await message.add_reaction("<a:complition_done:1214170055210967090>")
+        except ValueError:
+            start_time = time()
+            command, user_message = message.content.split(" ", 1)
+            image_data = await ImageIO.copy_image_data(message.attachments[0].url)
+            mime_type = await ImageIO.get_image_type(image_data)
+            bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_AND_IMAGE_TO_TEXT_MODEL_NAME,
+                                                  generation_config = GenerativeModelConfig.GENERATION_CONFIG,
+                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = user_message, mime_type = mime_type, image_data = image_data)
+            end_time = time()
         except errors.HTTPException: pass
         finally:
+            async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
+            async with message.channel.typing(): 
+                for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
             server = BOT.client.get_guild(int(environ.get("MESSGAE_LOGGER_SERVER_ID")))
             channel = server.get_channel(int(environ.get("MESSGAE_LOGGER_CHANNEL_ID")))
             await channel.send(f"User: <@{message.author.id}>")
@@ -67,20 +76,28 @@ async def on_message(message):
 
     elif message.content.startswith("<@1152586031149883423>"):
         await message.add_reaction("<:Gemini:1209104350832762922>")
-        start_time = time()
-        command, user_message = message.content.split(" ", 1)
-        bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_TO_TEXT_MODEL_NAME,
-                                              generation_config = GenerativeModelConfig.GENERATION_CONFIG,
-                                              safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = user_message)
-        await message.add_reaction("<a:complition_done:1214170055210967090>")
-        end_time = time()
         # Reply to the message with the bot's response
-        async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
-        try: 
-            async with message.channel.typing(): 
-                for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
+        try:
+            start_time = time()
+            command, user_message = message.content.split(" ", 1)
+            bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_TO_TEXT_MODEL_NAME,
+                                                  generation_config = GenerativeModelConfig.GENERATION_CONFIG,
+                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = user_message)
+            await message.add_reaction("<a:complition_done:1214170055210967090>")
+            end_time = time()
+        except ValueError:
+            start_time = time()
+            command, user_message = message.content.split(" ", 1)
+            bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_TO_TEXT_MODEL_NAME,
+                                                  generation_config = GenerativeModelConfig.GENERATION_CONFIG,
+                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = user_message)
+            await message.add_reaction("<a:complition_done:1214170055210967090>")
+            end_time = time()
         except errors.HTTPException: pass
         finally:
+            async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
+            async with message.channel.typing():
+                for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
             server = BOT.client.get_guild(int(environ.get("MESSGAE_LOGGER_SERVER_ID")))
             channel = server.get_channel(int(environ.get("MESSGAE_LOGGER_CHANNEL_ID")))
             await channel.send(f"User: <@{message.author.id}>")
