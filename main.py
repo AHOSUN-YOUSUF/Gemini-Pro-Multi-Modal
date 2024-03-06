@@ -14,7 +14,6 @@ async def on_ready():
     # Notify when the bot is logged in
     print(f"Logged In as { BOT.client.user }")
 
-    await BOT.client.user.edit(username = "Gemini Pro Multi-Modal")
     # Set bot username and presence
     await BOT.client.change_presence(activity = Activity(application_id = 1153053230377488456,
                                                          type = ActivityType.playing,
