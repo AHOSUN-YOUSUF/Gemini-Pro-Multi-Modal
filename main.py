@@ -68,7 +68,7 @@ async def on_message(message):
                 await message.add_reaction("<:complition_done:1214170055210967090>")
                 async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
                 async with message.channel.typing(): 
-                    for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
+                    for part in MessageStuff(text = MessageStuff.remove_tags(text = bot_response)).split_text(): await message.channel.send(part)
             else: await message.add_reaction("<:complition_undone:1214170316801179648>")
         except ValueError:
             start_time = time()
@@ -83,7 +83,7 @@ async def on_message(message):
                 await message.add_reaction("<:complition_done:1214170055210967090>")
                 async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
                 async with message.channel.typing(): 
-                    for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
+                    for part in MessageStuff(text = MessageStuff.remove_tags(text = bot_response)).split_text(): await message.channel.send(part)
             else: await message.add_reaction("<:complition_undone:1214170316801179648>")
         except errors.HTTPException: pass
         except UnboundLocalError: pass
@@ -96,7 +96,7 @@ async def on_message(message):
             await channel.send(f"User Image: [User Image link.]( {message.attachments[0].url} )")
             await channel.send(f"<@1152586031149883423> Responce to the Message:")
             async with channel.typing(): 
-                for part in MessageStuff(text = bot_response).split_text(): await channel.send(part)
+                for part in MessageStuff(text = MessageStuff.remove_tags(text = bot_response)).split_text(): await channel.send(part)
 
     elif message.content.startswith("<@1152586031149883423>"):
         await message.add_reaction("<:Gemini:1209104350832762922>")
@@ -113,7 +113,7 @@ async def on_message(message):
                 await message.add_reaction("<:complition_done:1214170055210967090>")
                 async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
                 async with message.channel.typing(): 
-                    for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
+                    for part in MessageStuff(text = MessageStuff.remove_tags(text = bot_response)).split_text(): await message.channel.send(part)
             else: await message.add_reaction("<:complition_undone:1214170316801179648>")
         except ValueError:
             start_time = time()
@@ -127,7 +127,7 @@ async def on_message(message):
                 await message.add_reaction("<:complition_done:1214170055210967090>")
                 async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
                 async with message.channel.typing(): 
-                    for part in MessageStuff(text = bot_response).split_text(): await message.channel.send(part)
+                    for part in MessageStuff(text = MessageStuff.remove_tags(text = bot_response)).split_text(): await message.channel.send(part)
             else: await message.add_reaction("<:complition_undone:1214170316801179648>")
         except errors.HTTPException: pass
         except UnboundLocalError: pass
