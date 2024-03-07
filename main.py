@@ -41,7 +41,7 @@ async def on_message(message):
     elif message.content.startswith("<@1152586031149883423> Help") or message.content.startswith("<@1152586031149883423> help"):
         help_embed = Embed()
         help_embed.color = Colour.blurple()
-        help_embed.title = "Someone needs help about @Gemini Pro Multi-Modal Beta, I see!"
+        help_embed.title = "Someone needs help about @Gemini Pro Multi-Modal, I see!"
         help_embed.url = "https://discord.gg/ukZUPTSQVV"
         help_embed.description = "Help menu for <@1152586031149883423>!"
         help_embed.add_field(name = "Help menu below:\n",
