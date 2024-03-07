@@ -35,6 +35,11 @@ class MessageStuff:
             result.append(part)
         return result
 
+    def remove_tags(text: str) -> str:
+        text = text.replace("<start_of_text>", "")
+        text = text.replace("<end_of_text>", "")
+        return text
+
 # Class to encapsulate model configuration and safety settings
 class GenerativeModelConfig:
     TEXT_TO_TEXT_MODEL_NAME: str = "models/gemini-pro"
