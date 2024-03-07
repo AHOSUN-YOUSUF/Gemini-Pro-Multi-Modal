@@ -37,6 +37,21 @@ async def on_message(message):
     if message.author == BOT.client.user:
         return
 
+    elif message.content.startswith("<@1152586031149883423> Help") or message.content.startswith("<@1152586031149883423> help"):
+        help_embed = Embed()
+        help_embed.color = Colour.blurple()
+        help_embed.title = "Someone needs help about @Gemini Pro Multi-Modal Beta, I see!"
+        help_embed.url = "https://discord.gg/ukZUPTSQVV"
+        help_embed.description = "Help menu for <@1152586031149883423>!"
+        help_embed.add_field(name = "Help menu below:\n",
+                             value = "How to Use BOT for Text-To-Text Completions | Sending Messages:\n• Mention the BOT using this format:\n <@1152586031149883423> `Your-Message-Goes-Here`.\n• It will then try to produce a AI Generated Text content, by using User Message.\n\nHow to Use BOT for Text-and-Image-To-Text Completions | Sending Messages:\n• Mention the BOT using this format:\n <@1152586031149883423> `Your-Message-Goes-Here`     and attach a Image after the message.\n• It will then try to produce a AI Generated Text content, by using User Message and the Image.\n")
+        help_embed.set_image(url = choices(["https://thetechscenes.com/wp-content/uploads/2023/12/Google-Gemini.webp", 
+                                            "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_SS.width-1300.jpg",
+                                            "https://s.yimg.com/ny/api/res/1.2/FWWVOW6s2MUFV_yLq9E36g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzU-/https://s.yimg.com/os/creatr-uploaded-images/2023-12/5f7be670-943f-11ee-af7f-41b7060d20ba",
+                                            "https://deepmind.google/technologies/gemini/static/images/share.png",
+                                            "https://lavocedinewyork.com/wp-content/uploads/2023/12/Gemini-era.jpg"])[0])
+        await message.reply(embed = help_embed, mention_author = False)
+
     elif message.content.startswith("<@1152586031149883423>") and message.attachments:
         await message.add_reaction("<:Gemini:1209104350832762922>")
         # Reply to the message with the bot's response
@@ -47,7 +62,7 @@ async def on_message(message):
             mime_type = await ImageIO.get_image_type(image_data)
             bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_AND_IMAGE_TO_TEXT_MODEL_NAME,
                                                   generation_config = GenerativeModelConfig.GENERATION_CONFIG,
-                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = user_message, mime_type = mime_type, image_data = image_data)
+                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = f"<start_of_text>\n{user_message}\n<end_of_text>", mime_type = mime_type, image_data = image_data)
             end_time = time()
             if (bot_response):
                 await message.add_reaction("<:complition_done:1214170055210967090>")
@@ -62,7 +77,7 @@ async def on_message(message):
             mime_type = await ImageIO.get_image_type(image_data)
             bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_AND_IMAGE_TO_TEXT_MODEL_NAME,
                                                   generation_config = GenerativeModelConfig.GENERATION_CONFIG,
-                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = user_message, mime_type = mime_type, image_data = image_data)
+                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = f"<start_of_text>\n{user_message}\n<end_of_text>", mime_type = mime_type, image_data = image_data)
             end_time = time()
             if (bot_response):
                 await message.add_reaction("<:complition_done:1214170055210967090>")
@@ -91,7 +106,7 @@ async def on_message(message):
             _, user_message = message.content.split(" ", 1)
             bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_TO_TEXT_MODEL_NAME,
                                                   generation_config = GenerativeModelConfig.GENERATION_CONFIG,
-                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = user_message)
+                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = f"<start_of_text>\n{user_message}\n<end_of_text>")
             await message.add_reaction("<:complition_done:1214170055210967090>")
             end_time = time()
             if (bot_response):
@@ -105,7 +120,7 @@ async def on_message(message):
             _, user_message = message.content.split(" ", 1)
             bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_TO_TEXT_MODEL_NAME,
                                                   generation_config = GenerativeModelConfig.GENERATION_CONFIG,
-                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = user_message)
+                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = f"<start_of_text>\n{user_message}\n<end_of_text>")
             await message.add_reaction("<:complition_done:1214170055210967090>")
             end_time = time()
             if (bot_response):
