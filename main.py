@@ -2,6 +2,7 @@
 from dependencies import (GeminiCompletion, GenerativeModelConfig, ImageIO, BOT, MessageStuff)
 from keep_alive import (keep_alive)
 from aiohttp import (client_exceptions)
+from random import (choices)
 from discord import (Activity, ActivityType, Embed, Colour, Status, errors)
 from time import (time)
 from os import (environ)
