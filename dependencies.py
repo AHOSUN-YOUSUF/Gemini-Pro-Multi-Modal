@@ -71,7 +71,15 @@ class GeminiCompletion:
             model = GenerativeModel(model_name = self.model_name,
                                     generation_config = self.generation_config,
                                     safety_settings = self.safety_settings)
-
+            text_parts = ["""Your a AI built by Google Deep Mind and Gooele AI Team, and your work is to help other people with your Text and Image Understanding and Text generation ability.""",
+                          """But people can or will get help from you as a Discord BOT.""",
+                         f"""Generate an answer to this prompt in Markdown format: <start_of_text>\n{query}\n<end_of_text>\nFormatting guidelines: For bold text, use **<The Text>**,""",
+                          """for lists, use * <The Text>, and for sublists, use * <The Text>. For code blocks, use triple backticks followed by the language and the code.""",
+                          """Example Code:\n```cpp\n#include <iostream>\n\nint main()\n{\n    std::cout << "Hello World!";\n    return 0;\n}\n```.""",
+                          """Also, try to be friendly and humorous. Feel free to use emoticons like :), :(, :D, ¯\_(ツ)_/¯, :D, :/, :P and :].""",
+                          """Notes:\n¯\_(ツ)_/¯ indicates to I don't know,\n:/  indicates to Mild annoyance, indecision, or awkwardness, and\n:P to Playfulness and teasing purpose.""",
+                          """However, avoid excessive use of emoticons for a more professional tone."""]
+            prompt_parts = "\n".join(text_parts)
             answer = model.generate_content(contents = [query])
             return answer.text
         except exceptions.InternalServerError: return "Before swearing at me! You need to know that it's Googles fault xDD.\nOkay, seriously, I'm not able to process Text to Text with Google for now!\nSorry about that! Check back later! Please?\n:3 oh and did you know you can't process anything in me after a long message as well owo!\nThis message is already SUPERlong so....."
@@ -83,10 +91,19 @@ class GeminiCompletion:
             model = GenerativeModel(model_name = self.model_name,
                                     generation_config = self.generation_config,
                                     safety_settings = self.safety_settings)
-
-            answer = model.generate_content(contents = [query,
-                                                        {"mime_type": mime_type,
-                                                        "data": image_data}])
+            text_parts = ["""Your a AI built by Google Deep Mind and Gooele AI Team, and your work is to help other people with your Text Understanding and Text Generation ability.""",
+                          """But people can or will get help from you as a Discord BOT.""",
+                         f"""Generate an answer to this prompt in Markdown format: <start_of_text>\n{query}\n<end_of_text>\nFormatting guidelines: For bold text, use **<The Text>**,""",
+                          """for lists, use * <The Text>, and for sublists, use * <The Text>. For code blocks, use triple backticks followed by the language and the code.""",
+                          """Example Code:\n```cpp\n#include <iostream>\n\nint main()\n{\n    std::cout << "Hello World!";\n    return 0;\n}\n```.""",
+                          """Also, try to be friendly and humorous. Feel free to use emoticons like :), :(, :D, ¯\_(ツ)_/¯, :D, :/, :P and :].""",
+                          """Notes:\n¯\_(ツ)_/¯ indicates to I don't know,\n:/  indicates to Mild annoyance, indecision, or awkwardness, and\n:P to Playfulness and teasing purpose.""",
+                          """However, avoid excessive use of emoticons for a more professional tone."""]
+            image_parts: list[dict] = [{"mime_type": mime_type,
+                                        "data": image_data}]
+            prompt_parts: list[str] = ["\n".join(text_parts),
+                                       image_parts[0]]
+            answer = model.generate_content(contents = [prompt_parts])
             return answer.text
         except exceptions.InternalServerError: return "Before swearing at me! You need to know that it's Googles fault xDD.\nOkay, seriously, I'm not able to process Text to Text with Google for now!\nSorry about that! Check back later! Please?\n:3 oh and did you know you can't process anything in me after a long message as well owo!\nThis message is already SUPERlong so....."
         except exceptions.InvalidArgument: return "Invalid API Key for Google Gemini Pro."
