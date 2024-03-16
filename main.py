@@ -63,7 +63,7 @@ async def on_message(message):
             mime_type = await ImageIO.get_image_type(image_data)
             bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_AND_IMAGE_TO_TEXT_MODEL_NAME,
                                                   generation_config = GenerativeModelConfig.GENERATION_CONFIG,
-                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = f"<start_of_text>\n{user_message}\n<end_of_text>", mime_type = mime_type, image_data = image_data)
+                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = user_message, mime_type = mime_type, image_data = image_data)
             end_time = time()
             if (bot_response):
                 await message.add_reaction("<:complition_done:1214170055210967090>")
@@ -78,7 +78,7 @@ async def on_message(message):
             mime_type = await ImageIO.get_image_type(image_data)
             bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_AND_IMAGE_TO_TEXT_MODEL_NAME,
                                                   generation_config = GenerativeModelConfig.GENERATION_CONFIG,
-                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = f"<start_of_text>\n{user_message}\n<end_of_text>", mime_type = mime_type, image_data = image_data)
+                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = user_message, mime_type = mime_type, image_data = image_data)
             end_time = time()
             if (bot_response):
                 await message.add_reaction("<:complition_done:1214170055210967090>")
@@ -107,7 +107,7 @@ async def on_message(message):
             _, user_message = message.content.split(" ", 1)
             bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_TO_TEXT_MODEL_NAME,
                                                   generation_config = GenerativeModelConfig.GENERATION_CONFIG,
-                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = f"<start_of_text>\n{user_message}\n<end_of_text>")
+                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = user_message)
             await message.add_reaction("<:complition_done:1214170055210967090>")
             end_time = time()
             if (bot_response):
@@ -121,7 +121,7 @@ async def on_message(message):
             _, user_message = message.content.split(" ", 1)
             bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_TO_TEXT_MODEL_NAME,
                                                   generation_config = GenerativeModelConfig.GENERATION_CONFIG,
-                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = f"<start_of_text>\n{user_message}\n<end_of_text>")
+                                                  safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_to_text(query = user_message)
             await message.add_reaction("<:complition_done:1214170055210967090>")
             end_time = time()
             if (bot_response):
