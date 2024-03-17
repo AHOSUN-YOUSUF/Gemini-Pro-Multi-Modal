@@ -31,6 +31,7 @@ async def on_ready():
     # Configure Google Generative AI
     GeminiCompletion.gemini_auth(auth_key = environ.get("GEMINI_API_Key_PLAIN_VAL")) # Replace with your actual Google Gemini API key
 
+
 # Event handler for when a message is received
 @BOT.client.event
 async def on_message(message):
@@ -38,12 +39,12 @@ async def on_message(message):
     if message.author == BOT.client.user:
         return
 
-    elif message.content.startswith("<@1152586031149883423> Help") or message.content.startswith("<@1152586031149883423> help"):
+    elif message.content.startswith("<@1214874330937294910> Help") or message.content.startswith("<@1152586031149883423> help"):
         help_embed = Embed()
         help_embed.color = Colour.blurple()
         help_embed.title = "Someone needs help about @Gemini Pro Multi-Modal, I see!"
         help_embed.url = "https://discord.gg/ukZUPTSQVV"
-        help_embed.description = "Help menu for <@1152586031149883423>!"
+        help_embed.description = "Help menu for <@1214874330937294910>!"
         help_embed.add_field(name = "Help menu below:\n",
                              value = "How to Use BOT for Text-To-Text Completions | Sending Messages:\n• Mention the BOT using this format:\n <@1152586031149883423> `Your-Message-Goes-Here`.\n• It will then try to produce a AI Generated Text content, by using User Message.\n\nHow to Use BOT for Text-and-Image-To-Text Completions | Sending Messages:\n• Mention the BOT using this format:\n <@1152586031149883423> `Your-Message-Goes-Here`     and attach a Image after the message.\n• It will then try to produce a AI Generated Text content, by using User Message and the Image.\n")
         help_embed.set_image(url = choices(["https://thetechscenes.com/wp-content/uploads/2023/12/Google-Gemini.webp", 
@@ -64,13 +65,12 @@ async def on_message(message):
             bot_response = await GeminiCompletion(model_name = GenerativeModelConfig.TEXT_AND_IMAGE_TO_TEXT_MODEL_NAME,
                                                   generation_config = GenerativeModelConfig.GENERATION_CONFIG,
                                                   safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = user_message, mime_type = mime_type, image_data = image_data)
+            print(bot_response)
             end_time = time()
-            if (bot_response):
-                await message.add_reaction("<:complition_done:1214170055210967090>")
-                async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
-                async with message.channel.typing(): 
-                    for part in MessageStuff(text = MessageStuff.remove_tags(text = bot_response)).split_text(): await message.channel.send(part)
-            else: await message.add_reaction("<:complition_undone:1214170316801179648>")
+            await message.add_reaction("<:complition_done:1214170055210967090>")
+            async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
+            async with message.channel.typing(): 
+                for part in MessageStuff(text = MessageStuff.remove_tags(text = bot_response)).split_text(): await message.channel.send(part)
         except ValueError:
             start_time = time()
             _, user_message = message.content.split(" ", 1)
@@ -80,12 +80,10 @@ async def on_message(message):
                                                   generation_config = GenerativeModelConfig.GENERATION_CONFIG,
                                                   safety_settings = GenerativeModelConfig.SAFETY_SETTINGS).text_image_to_text(query = user_message, mime_type = mime_type, image_data = image_data)
             end_time = time()
-            if (bot_response):
-                await message.add_reaction("<:complition_done:1214170055210967090>")
-                async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
-                async with message.channel.typing(): 
-                    for part in MessageStuff(text = MessageStuff.remove_tags(text = bot_response)).split_text(): await message.channel.send(part)
-            else: await message.add_reaction("<:complition_undone:1214170316801179648>")
+            await message.add_reaction("<:complition_done:1214170055210967090>")
+            async with message.channel.typing(): await message.reply(f"The response to your message from <@1152586031149883423> was this [Which was Generated in: {end_time - start_time} seconds]:", mention_author = False)
+            async with message.channel.typing(): 
+                for part in MessageStuff(text = MessageStuff.remove_tags(text = bot_response)).split_text(): await message.channel.send(part)
         except errors.HTTPException: pass
         except UnboundLocalError: pass
         finally:
@@ -144,7 +142,7 @@ async def on_message(message):
 
 # Run the bot
 try: 
-    if __name__ == "__main__": BOT.client.run(token = environ.get("GEMINI_Pro_Multi_Modal_TOKEN")) # Replace with your actual bot token
+    if __name__ == "__main__": BOT.client.run(token = environ.get("GEMINI_Pro_Multi_Modal_BETA_TOKEN")) # Replace with your actual bot token
 
 except errors.LoginFailure: print("Improper token for the BOT, `@Gemini Pro Multi-Modal#0747`.\n",
                                   "• Check the BOT token of `@Gemini Pro Multi-Modal#0747` at:\n",
