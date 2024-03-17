@@ -142,7 +142,7 @@ async def on_message(message):
 
 # Run the bot
 try: 
-    if __name__ == "__main__": BOT.client.run(token = environ.get("GEMINI_Pro_Multi_Modal_BETA_TOKEN")) # Replace with your actual bot token
+    if __name__ == "__main__": BOT.client.run(token = environ.get("GEMINI_Pro_Multi_Modal_TOKEN")) # Replace with your actual bot token
 
 except errors.LoginFailure: print("Improper token for the BOT, `@Gemini Pro Multi-Modal#0747`.\n",
                                   "• Check the BOT token of `@Gemini Pro Multi-Modal#0747` at:\n",
